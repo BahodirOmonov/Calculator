@@ -28,9 +28,9 @@ class Calculator {
 		this.checkEqual()
 		if (display[display.length - 1] !== value && ('+-x÷').includes(display[display.length - 1]))
 			return display.slice(0, -1) + value
-		else if(sign)
+		else if(sign && display[0] !== sign)
 			return display
-		else if(value !== display[display.length - 1] && display !== "")
+		else if((value !== display[display.length - 1] && display !== ""))
 			return display + value
 		else 
 			return display
@@ -38,10 +38,10 @@ class Calculator {
 	}
 	
 	checkEqual() {
-		if(display.includes('+')) sign = '+'
-		else if(display.includes('-')) sign = '-'
-		else if(display.includes('x')) sign = 'x'
-		else if(display.includes('÷')) sign = '÷'
+		if(display.slice(1).includes('+')) sign = '+'
+		else if(display.slice(1).includes('x')) sign = 'x'
+		else if(display.slice(1).includes('÷')) sign = '÷'
+		else if(display.slice(1).includes('-')) sign = '-'
 		else sign = ""
 	}
 	
@@ -60,8 +60,8 @@ class Calculator {
 		this.checkEqual()
 		if(!display.includes('.') && display !== "")
 			display += dot.textContent
-		else if(sign && !display.slice(display.indexOf(sign)).includes('.'))
-			if(display[display.indexOf(sign) + 1] === undefined)
+		else if(sign && !display.slice(display.indexOf(sign, 1)).includes('.'))
+			if(display[display.indexOf(sign, 1) + 1] === undefined)
 				display += '0' + dot.textContent
 			else
 				display += dot.textContent
@@ -70,11 +70,14 @@ class Calculator {
 
 	equalCalculate() {
 		this.checkEqual()
-		let checkUndefined = display[display.indexOf(sign) + 1] != undefined
+		let checkUndefined = display[display.indexOf(sign, 1) + 1] != undefined
 		if(sign === '+' && checkUndefined)
 			display = display.split('+').reduce((sum, el) => ((parseFloat(sum) * 10) + (parseFloat(el) * 10)) / 10).toString()
 		else if(sign === '-' && checkUndefined)
-			display = display.split('-').reduce((sum, el) => ((parseFloat(sum) * 10) - (parseFloat(el) * 10)) / 10).toString()
+			if(display[0] === '-')
+				display = (display.slice(0, display.indexOf('-', 1)) - display.slice(display.indexOf('-', 1) + 1)).toString()
+			else
+				display = display.split('-').reduce((sum, el) => ((parseFloat(sum) * 10) - (parseFloat(el) * 10)) / 10).toString()
 		else if(sign === 'x' && checkUndefined)
 			display = display.split('x').reduce((sum, el) => ((parseFloat(sum) * 10) * (parseFloat(el) * 10) / 100)).toString()
 		else if(sign === '÷' && checkUndefined)
@@ -84,6 +87,7 @@ class Calculator {
 	
 	result(value) {
 		input.setAttribute('value', value)
+		this.checkEqual()
 	}
 
 }
@@ -139,7 +143,7 @@ num9.addEventListener('click', (event) => {
 
 num0.addEventListener('click', (event) => {
 	calc.checkEqual()
-	if(display !== '0' && (display.slice(display.indexOf(sign) + 1) !== '0' || sign === ""))
+	if(display !== '0' && (display.slice(display.indexOf(sign, 1) + 1) !== '0' || sign == ""))
 		display += num0.textContent
 	calc.result(display)
 })
