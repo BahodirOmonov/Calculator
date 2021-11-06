@@ -139,7 +139,7 @@ num9.addEventListener('click', (event) => {
 
 num0.addEventListener('click', (event) => {
 	calc.checkEqual()
-	if(display !== '0' && display.slice(display.indexOf(sign) + 1) !== '0')
+	if(display !== '0' && (display.slice(display.indexOf(sign) + 1) !== '0' || sign === ""))
 		display += num0.textContent
 	calc.result(display)
 })
