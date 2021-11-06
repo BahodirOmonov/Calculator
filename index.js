@@ -55,6 +55,32 @@ class Calculator {
 			return display + value
 		
 	}
+
+	dotCheck() {
+		this.checkEqual()
+		if(!display.includes('.') && display !== "")
+			display += dot.textContent
+		else if(sign && !display.slice(display.indexOf(sign)).includes('.'))
+			if(display[display.indexOf(sign) + 1] === undefined)
+				display += '0' + dot.textContent
+			else
+				display += dot.textContent
+		this.result(display)
+	}
+
+	equalCalculate() {
+		this.checkEqual()
+		let checkUndefined = display[display.indexOf(sign) + 1] != undefined
+		if(sign === '+' && checkUndefined)
+			display = display.split('+').reduce((sum, el) => ((parseFloat(sum) * 10) + (parseFloat(el) * 10)) / 10).toString()
+		else if(sign === '-' && checkUndefined)
+			display = display.split('-').reduce((sum, el) => ((parseFloat(sum) * 10) - (parseFloat(el) * 10)) / 10).toString()
+		else if(sign === 'x' && checkUndefined)
+			display = display.split('x').reduce((sum, el) => ((parseFloat(sum) * 10) * (parseFloat(el) * 10) / 100)).toString()
+		else if(sign === '÷' && checkUndefined)
+			display = display.split('÷').reduce((sum, el) => (parseFloat(sum) * 10) / (parseFloat(el) * 10)).toString()
+		this.result(display)
+	}
 	
 	result(value) {
 		input.setAttribute('value', value)
@@ -118,14 +144,7 @@ num0.addEventListener('click', (event) => {
 	calc.result(display)
 })
 
-dot.addEventListener('click', (event) => {
-	calc.checkEqual()
-	if(!display.includes('.') && display !== "")
-		display += dot.textContent
-	else if(sign && !display.slice(display.indexOf(sign)).includes('.'))
-		display += dot.textContent
-	calc.result(display)
-})
+dot.addEventListener('click', (event) => calc.dotCheck())
 
 add.addEventListener('click', (event) => {
 		display = calc.checkSign(add.textContent)
@@ -157,20 +176,4 @@ remove_C.addEventListener('click', (event) => {
 	calc.result(display)
 })
 
-equal.addEventListener('click', (event) => {
-	calc.checkEqual()
-	let checkUndefined = display[display.indexOf(sign) + 1] != undefined
-	if(sign === '+' && checkUndefined)
-		display = display.split('+').reduce((sum, el) => ((parseFloat(sum) * 10) + (parseFloat(el) * 10)) / 10).toString()
-	else if(sign === '-' && checkUndefined)
-		display = display.split('-').reduce((sum, el) => ((parseFloat(sum) * 10) - (parseFloat(el) * 10)) / 10).toString()
-	else if(sign === 'x' && checkUndefined)
-		display = display.split('x').reduce((sum, el) => ((parseFloat(sum) * 10) * (parseFloat(el) * 10) / 100)).toString()
-	else if(sign === '÷' && checkUndefined)
-		display = display.split('÷').reduce((sum, el) => (parseFloat(sum) * 10) / (parseFloat(el) * 10)).toString()
-	calc.result(display)
-})
-
-
-
-
+equal.addEventListener('click', (event) => calc.equalCalculate())
