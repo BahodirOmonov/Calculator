@@ -1,21 +1,10 @@
 const input = document.querySelector('input')
 
-const num1 = document.querySelector('.num1')
-const num2 = document.querySelector('.num2')
-const num3 = document.querySelector('.num3')
-const num4 = document.querySelector('.num4')
-const num5 = document.querySelector('.num5')
-const num6 = document.querySelector('.num6')
-const num7 = document.querySelector('.num7')
-const num8 = document.querySelector('.num8')
-const num9 = document.querySelector('.num9')
+const nums = document.querySelectorAll('.num')
 const num0 = document.querySelector('.num0')
 
+const operations = document.querySelectorAll('.operation')
 const equal = document.querySelector('.equal')
-const add = document.querySelector('.add')
-const sub = document.querySelector('.sub')
-const mul = document.querySelector('.mul')
-const div = document.querySelector('.div')
 const dot = document.querySelector('.dot')
 const remove_R = document.querySelector('.remove-R')
 const remove_C = document.querySelector('.remove-C')
@@ -95,51 +84,13 @@ class Calculator {
 
 let calc = new Calculator() 
 
-	
-num1.addEventListener('click', (event) => {
-	display = calc.checkZero(num1.textContent)
-	calc.result(display)
-})
+for (let num of nums) {
+	num.addEventListener('click', (event) => {
+		display = calc.checkZero(num.textContent)
+		calc.result(display)
+	})
+}
 
-num2.addEventListener('click', (event) => {
-	display = calc.checkZero(num2.textContent)
-	calc.result(display)
-})
-
-num3.addEventListener('click', (event) => {
-	display = calc.checkZero(num3.textContent)
-	calc.result(display)
-})
-
-num4.addEventListener('click', (event) => {
-	display = calc.checkZero(num4.textContent)
-	calc.result(display)
-})
-
-num5.addEventListener('click', (event) => {
-	display = calc.checkZero(num5.textContent)
-	calc.result(display)
-})
-
-num6.addEventListener('click', (event) => {
-	display = calc.checkZero(num6.textContent)
-	calc.result(display)
-})
-
-num7.addEventListener('click', (event) => {
-	display = calc.checkZero(num7.textContent)
-	calc.result(display)
-})
-
-num8.addEventListener('click', (event) => {
-	display = calc.checkZero(num8.textContent)
-	calc.result(display)
-})
-
-num9.addEventListener('click', (event) => {
-	display = calc.checkZero(num9.textContent)
-	calc.result(display)
-})
 
 num0.addEventListener('click', (event) => {
 	calc.checkEqual()
@@ -150,25 +101,12 @@ num0.addEventListener('click', (event) => {
 
 dot.addEventListener('click', (event) => calc.dotCheck())
 
-add.addEventListener('click', (event) => {
-		display = calc.checkSign(add.textContent)
+for(let operation of operations) {
+	operation.addEventListener('click', (event) => {
+		display = calc.checkSign(operation.textContent)
 		calc.result(display)
-})
-
-sub.addEventListener('click', (event) => {
-	display = calc.checkSign(sub.textContent)
-	calc.result(display)
-})
-
-mul.addEventListener('click', (event) => {
-	display = calc.checkSign(mul.textContent)
-	calc.result(display)
-})
-
-div.addEventListener('click', (event) => {
-	display = calc.checkSign(div.textContent)
-	calc.result(display)
-})
+	})
+}
 
 remove_R.addEventListener('click', (event) => {
 	display = display.slice(0, -1)
